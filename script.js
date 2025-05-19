@@ -5,9 +5,7 @@ const supabase = createClient(
   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN5bnNoYnFscGdnaGpnd2x0dWtwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDc2NTY4MjIsImV4cCI6MjA2MzIzMjgyMn0.uJ0VMtAoqawydknYNwdwQxGsvdSPW49Y36Seo9WNCQ8'
 );
 
-console.log('Supabase Instance: ', supabase);
-
-// Funzione per recuperare tutti gli utenti da Supabase e aggiornare la tabella
+// Funzione per aggiornare la tabella visualizzata
 async function aggiornaTabella() {
   const { data: utenti, error } = await supabase
     .from('utenti')
@@ -22,14 +20,13 @@ async function aggiornaTabella() {
   tbody.innerHTML = '';
 
   utenti.forEach(user => {
-    // Calcolo vape gratis e vendite mancanti
     const vapeGratis = Math.floor(user.vendite / 10);
     const venditeMancanti = (10 - (user.vendite % 10)) % 10;
 
     const riga = document.createElement('tr');
 
     const cellNome = document.createElement('td');
-    cellNome.textContent = user.nomeOriginale;
+    cellNome.textContent = user.nome; // Usando 'nome'
     riga.appendChild(cellNome);
 
     const cellVendite = document.createElement('td');
@@ -64,13 +61,12 @@ document.getElementById('venditeForm').addEventListener('submit', async function
     const nome = nomeOriginale.toLowerCase();
 
     const vendite = parseInt(venditeInput.value, 10);
-
     if (nomeOriginale === '' || isNaN(vendite) || vendite < 0) {
       alert('Per favore, inserisci dati validi.');
       return;
     }
 
-    // Verifica se l'utente esiste già
+    // Controlla se l'utente esiste già
     const { data: existingUsers, error: errorFetch } = await supabase
       .from('utenti')
       .select('*')
@@ -82,7 +78,7 @@ document.getElementById('venditeForm').addEventListener('submit', async function
     }
 
     if (existingUsers.length > 0) {
-      // Aggiorna le vendite e il pagamento
+      // Aggiorna vendite e pagamento
       const userId = existingUsers[0].id;
       const nuoveVendite = existingUsers[0].vendite + vendite;
       const nuovoPagamento = nuoveVendite * 2;
@@ -105,7 +101,6 @@ document.getElementById('venditeForm').addEventListener('submit', async function
         .from('utenti')
         .insert([{
           nome: nome,
-          nomeOriginale: nomeOriginale,
           vendite: vendite,
           pagamento: vendite * 2
         }]);
@@ -117,15 +112,12 @@ document.getElementById('venditeForm').addEventListener('submit', async function
       }
     }
 
-    // Aggiorna la tabella visualizzata
     await aggiornaTabella();
-
-    // Reset del form
     document.getElementById('venditeForm').reset();
   } catch (err) {
     console.error('Errore generico:', err);
   }
 });
 
-// Inizializza la tabella al caricamento
+// Inizializza la tabella all'avvio
 window.onload = aggiornaTabella;
