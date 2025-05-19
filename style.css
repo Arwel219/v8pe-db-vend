@@ -41,8 +41,8 @@ body {
 }
 
 .form-box {
-  position: absolute;
-  left: 50%;
+  position: relative;
+  left: 46%;
   width: 18%;
   height: 30%;
   background: transparent;
