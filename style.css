@@ -6,7 +6,7 @@ body {
     min-height: 80vh;
     justify-content: center;
     align-items: center;
-    color: orange;
+    color: black;
 }
 
 .scrolling-title {
@@ -48,7 +48,7 @@ form {
     backdrop-filter: blur(10px);
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    text-shadow: 1px 1px yellow;
+    text-shadow: 1px 1px cyan;
 }
 
 label {
@@ -63,8 +63,8 @@ input[type="number"] {
     padding: 8px;
     margin-top: 5px;
     text-align: center;
-    text-shadow: 1px 1px yellow;
-    color: orange;
+    text-shadow: 1px 1px cyan;
+    color: black;
     border: none;
     outline: none;
     font-size: 1em;
@@ -106,7 +106,7 @@ table {
     overflow: hidden;
     box-shadow: 0 0 10px rgba(0,0,0,0.1);
     backdrop-filter: blur(10px);
-    text-shadow: 1px 1px yellow;
+    text-shadow: 1px 1px cyan;
 }
 
 th, td {
