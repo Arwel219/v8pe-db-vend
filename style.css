@@ -88,6 +88,17 @@ input.has-value ~ label {
   top: -5px;
 }
 
+.inputbox input {
+  width: 100%;
+  height: 50px;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-size: 1em;
+  padding: 0 35px 0 5px;
+  color: #fff;
+}
+
 button {
     margin-top: 15px;
     background: linear-gradient(135deg, green, yellow); /* sfondo con gradiente */
