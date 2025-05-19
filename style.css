@@ -1,149 +1,162 @@
-body {
-    background: url("bg17.jpg") no-repeat;
-    background-position: center;
-    background-size: cover;
-    min-height: 100vh;
-    width: 100%;
-    margin: 0;
-    padding: 0;
-    color: white;
+/* Reset di base */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* Stile per il titolo scorrevole */
+.scrolling-title-container {
+  width: 100%;
+  overflow: hidden;
+  background-color: #222; /* opzionale, per evidenziare */
 }
 
 .scrolling-title {
-    width: 100%;
-    white-space: nowrap;
-    overflow: hidden;
-    box-sizing: border-box;
-    padding: 10px 0;
-    font-size: 2em;
-    color: #fff; /* Colore del testo */
-    background-color: rgba(0, 0, 0, 0.3); /* Sfondo semi trasparente per visibilità */
-    position: relative;
-    font-family: 'Lucida Handwriting';
-	font-weight: bold;
-	text-shadow: 1px 1px green;
+  display: inline-block;
+  white-space: nowrap;
+  padding: 10px 0;
+  font-family: "Poppins", sans-serif;
+  font-size: 2em;
+  font-weight: bold;
+  color: cyan;
+  animation: scroll-left 10s linear infinite;
 }
-
-.scrolling-title span {
-    display: inline-block;
-    padding-left: 100%;
-    animation: scroll-left 15s linear infinite;
-	white-space: nowrap;
-        }
 
 @keyframes scroll-left {
-	0% {
-		transform: translateX(0%);
-}
-	100% {
-		transform: translateX(-100%);
-    }
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
 }
 
-.form-box {
-  position: relative;
-  left: 46%;
-  width: 18%;
-  height: 30%;
-  background: transparent;
-  border: 2px solid white;
-  border-radius: 20px;
-  backdrop-filter: blur(20px);
+/* Contenitore del form, centrato e responsive */
+.body {
   font-family: "Poppins", sans-serif;
-  text-shadow: 1px 1px cyan;
+  background-color: #121212;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
 }
 
-.inputbox {
-  position: relative;
-  margin: 30px 0;
-  width: 310px;
-  border-bottom: 2px solid #fff;
+/* Wrapper per centrare il form */
+.form-wrapper {
+  width: 90%;
+  max-width: 400px;
+  display: flex;
+  justify-content: center;
+  margin-top: 30px;
 }
 
-.inputbox label {
-  position: absolute;
-  top: 50%;
-  left: 5px;
-  transform: translateY(-50%);
-  color: #fff;
-  font-size: 1em;
-  pointer-events: none;
-  transition: 0.5s;
-}
-
-input:focus ~ label {
-  top: -5px;
-}
-
-input:valid ~ label {
-  top: -5px;
-}
-
-input.has-value ~ label {
-  top: -5px;
-}
-
-.inputbox input {
+/* Box del form con stile */
+.form-box {
   width: 100%;
-  height: 50px;
+  padding: 20px;
+  backdrop-filter: blur(20px);
+  border-radius: 20px;
+  border: 2px solid white;
   background: transparent;
-  border: none;
-  outline: none;
-  font-size: 1em;
-  padding: 0 35px 0 5px;
+  box-shadow: 0 0 10px rgba(255,255,255,0.2);
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Stile per le input box */
+.inputbox {
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  margin-bottom: 8px;
+  font-weight: bold;
   color: #fff;
+}
+
+input[type="text"],
+input[type="number"] {
+  padding: 10px;
+  border: none;
+  border-radius: 10px;
+  outline: none;
+  font-family: "Poppins", sans-serif;
+  font-size: 1em;
+  background-color: rgba(255,255,255,0.1);
+  color: #fff;
+}
+
+/* Bottone centrato */
+.button-container {
+  display: flex;
+  justify-content: center;
 }
 
 button {
-    margin-top: 15px;
-    background: linear-gradient(135deg, green, yellow); /* sfondo con gradiente */
-    color: white;
-    padding: 12px 24px;
-    border: none;
-    border-radius: 8px;
-    font-family: 'Poppins', sans-serif;
-    font-style: italic; /* rende il testo in corsivo */
-    font-size: 16px;
-    font-weight: bold;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-    transition: all 0.3s ease;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 10px;
+  background-color: #00ffff;
+  color: #000;
+  font-size: 1em;
+  cursor: pointer;
+  font-family: "Poppins", sans-serif;
+  transition: background-color 0.3s;
 }
 
 button:hover {
-    background: linear-gradient(135deg, yellow, green); /* inversione del gradiente per effetto hover */
-    color: white;
-    transform: scale(1.05);
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3), inset 0 0 10px orange;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
-    cursor: pointer;
-    transition: cursor 0.2s ease;
+  background-color: #009999;
 }
 
-table {
-    width: 90%;
-    margin: 30px auto;
-    border-collapse: collapse;
-    background: transparent;
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    backdrop-filter: blur(10px);
-    text-shadow: 1px 1px cyan;
+/* Contenitore tabella, centrato e responsive */
+.table-container {
+  width: 90%;
+  max-width: 800px;
+  margin: 30px auto;
+  overflow-x: auto;
 }
 
-th, td {
-    padding: 12px;
-    border: 1px solid #ddd;
-    text-align: center;
+#risultatiTable {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  overflow: hidden;
 }
 
-th {
-    background: transparent;
+#risultatiTable th,
+#risultatiTable td {
+  padding: 12px 15px;
+  border: 1px solid #fff;
+  text-align: center;
+  color: #fff;
 }
 
-/* Responsive adjustments */
+#risultatiTable th {
+  background-color: rgba(255, 255, 255, 0.2);
+  font-weight: bold;
+}
+
+/* Responsive per schermi piccoli */
 @media (max-width: 600px) {
-    table {
-        width: 100%;
-    }
+  .scrolling-title {
+    font-size: 1.5em;
+  }
+
+  input[type="text"],
+  input[type="number"] {
+    font-size: 0.9em;
+  }
+
+  button {
+    padding: 8px 16px;
+    font-size: 0.9em;
+  }
 }
