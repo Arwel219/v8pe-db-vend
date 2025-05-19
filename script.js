@@ -105,17 +105,28 @@ document.getElementById('venditeForm').addEventListener('submit', async function
       pagamento: vendite * 2
     }]);
   
+  const { data: insertData, error: insertError } = await supabase
+    .from('utenti')
+    .insert([{
+      nome: nome,
+      nomeOriginale: nomeOriginale,
+      vendite: vendite,
+      pagamento: vendite * 2
+  }]);
+
   if (insertError) {
     console.error('Errore durante insert:', insertError);
   } else {
     console.log('Dati inseriti:', insertData);
   }
-
+  
   // Aggiorna la tabella visualizzata
   await aggiornaTabella();
-
+  
   // Reset del form
   document.getElementById('venditeForm').reset();
-};
+
+// Chiudi la funzione event listener
+});
 // Inizializza la tabella al caricamento
 window.onload = aggiornaTabella;
