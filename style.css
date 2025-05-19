@@ -47,7 +47,7 @@ form {
     backdrop-filter: blur(10px);
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    text-shadow: 1px 1px green;
+    text-shadow: 1px 1px yellow;
 }
 
 label {
@@ -62,7 +62,7 @@ input[type="number"] {
     padding: 8px;
     margin-top: 5px;
     text-align: center;
-    text-shadow: 2px 2px green;
+    text-shadow: 1px 1px yellow;
     color: black;
     border: none;
     outline: none;
