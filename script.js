@@ -9,8 +9,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Funzione per calcolare il pagamento e vape gratis
     function calcolaPagamento(eVendite) {
-        const pagamentoPerVape = 100; // esempio, 100 vendite per ottenere un vape gratis
-        const pagamenti = Math.floor(eVendite / pagamentoPerVape) * 5; // esempio: 5€ per vape gratis
+        const pagamentoPerVape = 10; // esempio, 10 vendite per ottenere un vape gratis
+        const pagamenti = Math.floor(eVendite / pagamentoPerVape) * 2; // esempio: 5€ per vape gratis
         const vapeGratis = Math.floor(eVendite / pagamentoPerVape);
         const venditeMancanti = pagamentoPerVape - (eVendite % pagamentoPerVape);
         return { pagamenti, vapeGratis, venditeMancanti };
