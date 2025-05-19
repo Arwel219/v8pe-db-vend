@@ -17,14 +17,14 @@ document.getElementById('venditeForm').addEventListener('submit', async function
     }
 
     // Invia i dati al backend
-    await fetch('http://localhost:3000/utente', {
+    await fetch('http://20.61.126.210/utente', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ nome, vendite })
     });
 
     // Recupera tutti gli utenti
-    const response = await fetch('http://localhost:3000/utenti');
+    const response = await fetch('http://20.61.126.210/utenti');
     const utenti = await response.json();
 
     // Ricostruisci la tabella
