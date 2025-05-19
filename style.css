@@ -6,7 +6,7 @@ body {
     min-height: 80vh;
     justify-content: center;
     align-items: center;
-    color: white;
+    color: orange;
 }
 
 .scrolling-title {
@@ -64,7 +64,7 @@ input[type="number"] {
     margin-top: 5px;
     text-align: center;
     text-shadow: 1px 1px yellow;
-    color: white;
+    color: orange;
     border: none;
     outline: none;
     font-size: 1em;
