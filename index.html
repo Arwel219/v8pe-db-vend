@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8" />
+    <title>Calcolo Vendite, Pagamenti e Vape Gratis</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+            background-color: #f4f4f4;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        form {
+            max-width: 500px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        label {
+            display: block;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+        input[type="text"],
+        input[type="number"] {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            margin-top: 15px;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        table {
+            width: 90%;
+            margin: 30px auto;
+            border-collapse: collapse;
+            background-color: #fff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        th, td {
+            padding: 12px;
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 600px) {
+            table {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Calcolo Vendite, Pagamenti e Vape Gratis</h1>
+    <form id="venditeForm">
+        <label for="nome">Nome Utente:</label>
+        <input type="text" id="nome" required />
+
+        <label for="vendite">Numero di Vendite:</label>
+        <input type="number" id="vendite" min="0" required />
+
+        <button type="submit">Aggiungi</button>
+    </form>
+
+    <table id="risultatiTable">
+        <thead>
+            <tr>
+                <th>Nome Utente</th>
+                <th>Numero di Vendite</th>
+                <th>Pagamento (€)</th>
+                <th>Vape Gratis</th>
+                <th>Vendite Mancanti per Vape Gratis</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- I risultati verranno inseriti qui -->
+        </tbody>
+    </table>
+
+    <script>
+        // Oggetto per tenere traccia degli utenti e vendite
+        const utenti = {};
+
+        document.getElementById('venditeForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const nomeInput = document.getElementById('nome');
+            const venditeInput = document.getElementById('vendite');
+
+            // Normalizziamo il nome utente in minuscolo
+            const nomeOriginale = nomeInput.value.trim();
+            const nome = nomeOriginale.toLowerCase();
+
+            const vendite = parseInt(venditeInput.value, 10);
+
+            if (nomeOriginale === '' || isNaN(vendite) || vendite < 0) {
+                alert('Per favore, inserisci dati validi.');
+                return;
+            }
+
+            // Se l'utente esiste già, aggiorna le vendite
+            if (utenti[nome]) {
+                utenti[nome].vendite += vendite;
+            } else {
+                // Altrimenti, crea una nuova entry
+                utenti[nome] = {
+                    nomeOriginale: nomeOriginale, // nome originale per mostrare
+                    vendite: vendite,
+                    pagamento: 0
+                };
+            }
+
+            // Aggiorna il pagamento totale
+            utenti[nome].pagamento = utenti[nome].vendite * 2;
+
+            // Ricostruisci la tabella
+            const tbody = document.getElementById('risultatiTable').querySelector('tbody');
+            tbody.innerHTML = '';
+
+            for (const key in utenti) {
+                const user = utenti[key];
+
+                // Calcolo vape gratis e vendite mancanti
+                const vapeGratis = Math.floor(user.vendite / 10);
+                const venditeMancanti = (10 - (user.vendite % 10)) % 10; // se vendite % 10 == 0, mancanti sono 0
+
+                const riga = document.createElement('tr');
+
+                const cellNome = document.createElement('td');
+                cellNome.textContent = user.nomeOriginale;
+                riga.appendChild(cellNome);
+
+                const cellVendite = document.createElement('td');
+                cellVendite.textContent = user.vendite;
+                riga.appendChild(cellVendite);
+
+                const cellPagamento = document.createElement('td');
+                cellPagamento.textContent = user.pagamento.toFixed(2);
+                riga.appendChild(cellPagamento);
+
+                const cellVape = document.createElement('td');
+                cellVape.textContent = vapeGratis;
+                riga.appendChild(cellVape);
+
+                const cellMancanti = document.createElement('td');
+                cellMancanti.textContent = venditeMancanti;
+                riga.appendChild(cellMancanti);
+
+                tbody.appendChild(riga);
+            }
+
+            // Reset del form
+            document.getElementById('venditeForm').reset();
+        });
+    </script>
+</body>
+</html>
