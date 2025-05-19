@@ -147,7 +147,7 @@ th {
 
 /* Responsive adjustments */
 @media (max-width: 600px) {
-    table {
+    table, .formbox, button {
         width: 100%;
     }
 }
