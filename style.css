@@ -105,7 +105,7 @@ table {
     overflow: hidden;
     box-shadow: 0 0 10px rgba(0,0,0,0.1);
     backdrop-filter: blur(10px);
-    text-shadow: 1px 1px green;
+    text-shadow: 1px 1px yellow;
 }
 
 th, td {
