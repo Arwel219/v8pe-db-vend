@@ -40,7 +40,7 @@ body {
     }
 }
 
-form {
+.form-box {
   position: relative;
   width: 400px;
   height: 500px;
