@@ -1,94 +1,83 @@
-async function salvaUtente(nome, vendite) {
-  // Verifica se l'utente esiste
-  const { data: existingUser, error } = await supabase
-    .from('utenti')
-    .select('*')
-    .eq('nome', nome)
-    .single();
+// script.js
 
-  if (error && error.code !== 'PGRST116') {
-    // errore diverso da "record non trovato"
-    console.error(error);
-    return;
-  }
+// Assicurati che suppabase sia definito
+// puoi accedervi direttamente se è stato definito in server.js
 
-  const pagamento = vendite * 2;
+document.addEventListener('DOMContentLoaded', () => {
+    const form = document.getElementById('venditeForm');
+    const tbody = document.querySelector('#risultatiTable tbody');
 
-  if (existingUser) {
-    // Aggiorna
-    const nuoveVendite = existingUser.vendite + vendite;
-    await supabase
-      .from('utenti')
-      .update({ vendite: nuoveVendite, pagamento: nuoveVendite * 2 })
-      .eq('nome', nome);
-  } else {
-    // Inserisci nuovo
-    await supabase
-      .from('utenti')
-      .insert([{ nome, vendite, pagamento }]);
-  }
-}
+    // Funzione per calcolare il pagamento e vape gratis
+    function calcolaPagamento(eVendite) {
+        const pagamentoPerVape = 100; // esempio, 100 vendite per ottenere un vape gratis
+        const pagamenti = Math.floor(eVendite / pagamentoPerVape) * 5; // esempio: 5€ per vape gratis
+        const vapeGratis = Math.floor(eVendite / pagamentoPerVape);
+        const venditeMancanti = pagamentoPerVape - (eVendite % pagamentoPerVape);
+        return { pagamenti, vapeGratis, venditeMancanti };
+    }
 
-async function ottieniUtenti() {
-  const { data, error } = await supabase
-    .from('utenti')
-    .select('*');
+    // Funzione per mostrare i dati nella tabella
+    function mostraRisultati(utenti) {
+        tbody.innerHTML = '';
+        utenti.forEach(utente => {
+            const { nome, vendite } = utente;
+            const { pagamenti, vapeGratis, venditeMancanti } = calcolaPagamento(vendite);
 
-  if (error) {
-    console.error(error);
-    return [];
-  }
-  return data;
-}
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td>${nome}</td>
+                <td>${vendite}</td>
+                <td>${pagamenti}</td>
+                <td>${vapeGratis}</td>
+                <td>${venditeMancanti}</td>
+            `;
+            tbody.appendChild(tr);
+        });
+    }
 
-document.getElementById('venditeForm').addEventListener('submit', async function(e) {
-  e.preventDefault();
+    // Funzione per ottenere tutti gli utenti dal database
+    async function ottieniUtenti() {
+        const { data, error } = await supabase
+            .from('utenti')
+            .select('*');
+        if (error) {
+            console.error('Errore nel recupero utenti:', error);
+            return [];
+        }
+        return data;
+    }
 
-  const nomeOriginale = document.getElementById('nome').value.trim();
-  const nome = nomeOriginale.toLowerCase();
-  const vendite = parseInt(document.getElementById('vendite').value, 10);
+    // Funzione per salvare un utente nel database
+    async function salvaUtente(nome, vendite) {
+        const { data, error } = await supabase
+            .from('utenti')
+            .insert([{ nome, vendite }]);
+        if (error) {
+            console.error('Errore nel salvataggio:', error);
+        } else {
+            console.log('Utente salvato:', data);
+        }
+    }
 
-  if (nomeOriginale === '' || isNaN(vendite) || vendite < 0) {
-    alert('Per favore, inserisci dati validi.');
-    return;
-  }
+    // Carica i dati all'avvio
+    async function caricaDati() {
+        const utenti = await ottieniUtenti();
+        mostraRisultati(utenti);
+    }
 
-  await salvaUtente(nome, vendite);
-  const utenti = await ottieniUtenti();
+    // Gestione submit del form
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const nome = document.getElementById('nome').value.trim();
+        const vendite = parseInt(document.getElementById('vendite').value, 10);
 
-  // Ricostruisci la tabella come prima
-  const tbody = document.getElementById('risultatiTable').querySelector('tbody');
-  tbody.innerHTML = '';
+        if (nome && !isNaN(vendite)) {
+            await salvaUtente(nome, vendite);
+            await caricaDati();
+            form.reset();
+        }
+    });
 
-  utenti.forEach(user => {
-    const vendite = user.vendite;
-    const vapeGratis = Math.floor(vendite / 10);
-    const venditeMancanti = (10 - (vendite % 10)) % 10;
-
-    const riga = document.createElement('tr');
-
-    const cellNome = document.createElement('td');
-    cellNome.textContent = user.nome;
-    riga.appendChild(cellNome);
-
-    const cellVendite = document.createElement('td');
-    cellVendite.textContent = vendite;
-    riga.appendChild(cellVendite);
-
-    const cellPagamento = document.createElement('td');
-    cellPagamento.textContent = user.pagamento.toFixed(2);
-    riga.appendChild(cellPagamento);
-
-    const cellVape = document.createElement('td');
-    cellVape.textContent = vapeGratis;
-    riga.appendChild(cellVape);
-
-    const cellMancanti = document.createElement('td');
-    cellMancanti.textContent = venditeMancanti;
-    riga.appendChild(cellMancanti);
-
-    tbody.appendChild(riga);
-  });
-
-  document.getElementById('venditeForm').reset();
+    // Carica i dati iniziali
+    caricaDati();
 });
