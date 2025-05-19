@@ -1,3 +1,11 @@
+// script.js
+
+// Inserisci qui la tua istanza di supabase
+const supabase = createClient(
+  'https://cynshbqlpgghjgwltukp.supabase.co',
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN5bnNoYnFscGdnaGpnd2x0dWtkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDc2NTY4MjIsImV4cCI6MjA2MzIzMjgyMn0.uJ0VMtAoqawydknYNwdwQxGsvdSPW49Y36Seo9WNCQ8'
+);
+
 document.addEventListener('DOMContentLoaded', () => {
     const form = document.getElementById('venditeForm');
     const tbody = document.querySelector('#risultatiTable tbody');
