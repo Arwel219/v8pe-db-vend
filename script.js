@@ -3,6 +3,7 @@ const supabase = createClient('https://cynshbqlpgghjgwltukp.supabase.co', 'eyJhb
 
 console.log('Supabase Instance: ', supabase)
 
+// Funzione per recuperare tutti gli utenti da Supabase e aggiornare la tabella
 async function aggiornaTabella() {
   const { data: utenti, error } = await supabase
     .from('utenti')
@@ -89,19 +90,13 @@ document.getElementById('venditeForm').addEventListener('submit', async function
       })
       .eq('id', userId);
 
-  if (errorUpdate) {
-    console.error('Errore nell\'update:', errorUpdate);
-    // Aggiungi questo per vedere cosa sta inviando
-    console.log('Dati update:', {
-      vendite: nuoveVendite,
-      pagamento: nuovoPagamento,
-      userId: userId
-    });
-    return;
-  }
+    if (errorUpdate) {
+      console.error('Errore nell\'update:', errorUpdate);
+      return;
+    }
   } else {
     // Inserisci nuovo utente
-  const { error: errorInsert } = await supabase
+    await supabase
       .from('utenti')
       .insert([{
         nome: nome,
@@ -111,11 +106,6 @@ document.getElementById('venditeForm').addEventListener('submit', async function
       }]);
   }
 
-  if (errorInsert) {
-    console.error('Errore nell\'insert:', errorInsert);
-    // Stampa l'errore completo
-  }
-  
   // Aggiorna la tabella visualizzata
   await aggiornaTabella();
 
