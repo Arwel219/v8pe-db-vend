@@ -1,7 +1,7 @@
 body {
     background: url("https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExZng4aTNwemo5MmlpNjRsbTU2dHFsbW5kcWNjaDJqc252NnZsN2ZqeiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/XpjsJ4alSvW9L5DRNW/giphy.gif") no-repeat;
     background-position: center;
-    background-size: 80% 100%;
+    background-size: 100% 100%;
     width: 100%;
     min-height: 80vh;
 }
