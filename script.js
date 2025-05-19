@@ -5,6 +5,44 @@ const supabase = createClient(
   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN5bnNoYnFscGdnaGpnd2x0dWtwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDc2NTY4MjIsImV4cCI6MjA2MzIzMjgyMn0.uJ0VMtAoqawydknYNwdwQxGsvdSPW49Y36Seo9WNCQ8'
 );
 
+async function gestisciResetMensile() {
+  const today = new Date();
+  const giorno = today.getDate();
+  const meseAnno = `${today.getFullYear()}-${(today.getMonth() + 1).toString().padStart(2, '0')}`;
+
+  // Se è il primo giorno del mese
+  if (giorno === 1) {
+    // Trasferisci i dati attuali in storico
+    const { data: utenti, error } = await supabase
+      .from('utenti')
+      .select('*');
+
+    if (error) {
+      console.error('Errore nel fetch utenti:', error);
+      return;
+    }
+
+    // Inserisci tutti i dati attuali in utenti_storico
+    const storicoInsertPromises = utenti.map(user => 
+      supabase
+        .from('utenti_storico')
+        .insert([{
+          nome: user.nome,
+          vendite: user.vendite,
+          pagamento: user.pagamento,
+          mese_anno: meseAnno
+        }])
+    );
+
+    await Promise.all(storicoInsertPromises);
+
+    // Resetta la tabella utenti
+    await supabase
+      .from('utenti')
+      .update({ vendite: 0, pagamento: 0 });
+  }
+}
+
 // Funzione per aggiornare la tabella visualizzata
 async function aggiornaTabella() {
   const { data: utenti, error } = await supabase
@@ -120,4 +158,8 @@ document.getElementById('venditeForm').addEventListener('submit', async function
 });
 
 // Inizializza la tabella all'avvio
-window.onload = aggiornaTabella;
+window.onload = async () => {
+  await gestisciResetMensile();
+  await aggiornaTabella();
+};
+
