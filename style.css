@@ -146,8 +146,56 @@ th {
 }
 
 /* Responsive adjustments */
-@media (max-width: 600px) {
-    table, .formbox, button {
+@media (max-width: 768px) {
+    /* Ridimensiona il font e le strutture su tablet */
+    .scrolling-title {
+        font-size: 1.5em;
+        padding: 8px 0;
+    }
+
+    .form-box {
+        width: 90%;
+        padding: 15px;
+    }
+
+    input[type="text"], input[type="number"] {
+        font-size: 0.9em;
+        padding: 10px;
+    }
+
+    button {
         width: 100%;
+        font-size: 1em;
+        padding: 12px;
+    }
+
+    table {
+        width: 100%;
+        font-size: 0.9em;
+    }
+}
+
+@media (max-width: 480px) {
+    /* Ridimensiona ulteriormente per dispositivi molto piccoli */
+    body {
+        font-size: 0.9em;
+    }
+
+    .scrolling-title {
+        font-size: 1.2em;
+    }
+
+    input[type="text"], input[type="number"] {
+        font-size: 0.8em;
+        padding: 8px;
+    }
+
+    button {
+        padding: 10px;
+        font-size: 0.9em;
+    }
+
+    table {
+        font-size: 0.8em;
     }
 }
