@@ -116,6 +116,6 @@ document.getElementById('venditeForm').addEventListener('submit', async function
 
   // Reset del form
   document.getElementById('venditeForm').reset();
-
+};
 // Inizializza la tabella al caricamento
 window.onload = aggiornaTabella;
