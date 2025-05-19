@@ -1,8 +1,3 @@
-// script.js
-
-// Assicurati che suppabase sia definito
-// puoi accedervi direttamente se è stato definito in server.js
-
 document.addEventListener('DOMContentLoaded', () => {
     const form = document.getElementById('venditeForm');
     const tbody = document.querySelector('#risultatiTable tbody');
