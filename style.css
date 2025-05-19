@@ -178,7 +178,7 @@ th {
 @media (max-width: 480px) {
     /* Ridimensiona ulteriormente per dispositivi molto piccoli */
     body {
-        font-size: 0.9em;
+        font-size: 0.8em;
     }
 
     .scrolling-title {
