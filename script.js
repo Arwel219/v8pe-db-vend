@@ -89,10 +89,16 @@ document.getElementById('venditeForm').addEventListener('submit', async function
       })
       .eq('id', userId);
 
-    if (errorUpdate) {
-      console.error('Errore nell\'update:', errorUpdate);
-      return;
-    }
+  if (errorUpdate) {
+    console.error('Errore nell\'update:', errorUpdate);
+    // Aggiungi questo per vedere cosa sta inviando
+    console.log('Dati update:', {
+      vendite: nuoveVendite,
+      pagamento: nuovoPagamento,
+      userId: userId
+    });
+    return;
+  }
   } else {
     // Inserisci nuovo utente
     await supabase
@@ -105,6 +111,11 @@ document.getElementById('venditeForm').addEventListener('submit', async function
       }]);
   }
 
+  if (errorInsert) {
+    console.error('Errore nell\'insert:', errorInsert);
+    // Stampa l'errore completo
+  }
+  
   // Aggiorna la tabella visualizzata
   await aggiornaTabella();
 
