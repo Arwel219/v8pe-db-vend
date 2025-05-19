@@ -96,14 +96,19 @@ document.getElementById('venditeForm').addEventListener('submit', async function
     }
   } else {
     // Inserisci nuovo utente
-    await supabase
-      .from('utenti')
-      .insert([{
-        nome: nome,
-        nomeOriginale: nomeOriginale,
-        vendite: vendite,
-        pagamento: vendite * 2
-      }]);
+    const { data: insertData, error: insertError } = await supabase
+    .from('utenti')
+    .insert([{
+      nome: nome,
+      nomeOriginale: nomeOriginale,
+      vendite: vendite,
+      pagamento: vendite * 2
+    }]);
+  
+  if (insertError) {
+    console.error('Errore durante insert:', insertError);
+  } else {
+    console.log('Dati inseriti:', insertData);
   }
 
   // Aggiorna la tabella visualizzata
