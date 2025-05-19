@@ -101,7 +101,7 @@ document.getElementById('venditeForm').addEventListener('submit', async function
   }
   } else {
     // Inserisci nuovo utente
-    await supabase
+  const { error: errorInsert } = await supabase
       .from('utenti')
       .insert([{
         nome: nome,
